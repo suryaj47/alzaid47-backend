@@ -15,6 +15,9 @@ app.use(express.json());
 connectDB();
 
 // routes
+app.get("/ping", (req, res) => {
+  res.status(200).send("Server is alive");
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/uploads", express.static("uploads"));
