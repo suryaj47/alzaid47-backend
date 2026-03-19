@@ -4,6 +4,7 @@ require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const diagnosisRoutes = require("./routes/diagnosisRoutes");
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.get("/ping", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/uploads", express.static("uploads"));
+app.use("/api/diagnosis", diagnosisRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
