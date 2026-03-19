@@ -24,9 +24,6 @@ const diagnosisSchema = new mongoose.Schema({
     enum: ["Low", "Moderate", "High"],
     required: true,
   },
-  answers: {
-    type: Object, // store answers (future use)
-  },
   createdAt: {
     type: Date,
     default: Date.now,

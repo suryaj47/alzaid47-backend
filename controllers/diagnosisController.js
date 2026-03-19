@@ -1,8 +1,9 @@
 const Diagnosis = require("../models/Diagnosis");
+const mongoose = require("mongoose");
 
 exports.savetestresult = async (req, res) => {
      try {
-    const { testType, score, maxScore, answers } = req.body;
+    const { testType, score, maxScore} = req.body;
 
     // 🔥 Risk Calculation Logic
     let percentage = (score / maxScore) * 100;
@@ -12,12 +13,11 @@ exports.savetestresult = async (req, res) => {
     else if (percentage < 75) riskLevel = "Moderate";
 
     const diagnosis = new Diagnosis({
-      userId: req.user.id,
+      userId: req.userId,
       testType,
       score,
       maxScore,
-      riskLevel,
-      answers,
+      riskLevel
     });
 
     await diagnosis.save();
@@ -33,12 +33,15 @@ exports.savetestresult = async (req, res) => {
 
 
 exports.getdiagnosis = async (req, res) => {
-     try {
-    const userId = req.user.id;
+    try {
+    const userId = req.userId;
 
-    // get latest test for each type
     const results = await Diagnosis.aggregate([
-      { $match: { userId: new require("mongoose").Types.ObjectId(userId) } },
+      {
+        $match: {
+          userId: new mongoose.Types.ObjectId(userId),
+        },
+      },
       { $sort: { createdAt: -1 } },
       {
         $group: {
@@ -51,12 +54,12 @@ exports.getdiagnosis = async (req, res) => {
     res.json(results);
   } catch (err) {
     res.status(500).json({ message: err.message });
-    }
+  }
 };
 
 exports.history = async (req, res) => {
       try {
-    const data = await Diagnosis.find({ userId: req.user.id }).sort({
+    const data = await Diagnosis.find({ userId: req.userId }).sort({
       createdAt: -1,
     });
 
