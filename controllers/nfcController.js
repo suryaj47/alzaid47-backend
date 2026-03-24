@@ -6,7 +6,7 @@ exports.createNFC = async (req, res) => {
     const { contentType, content, mediaUrl } = req.body;
 
     const newData = new NFC({
-      userId: req.user.id,
+      userId: req.userId,
       contentType,
       content,
       mediaUrl,
