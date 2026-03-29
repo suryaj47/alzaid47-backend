@@ -5,8 +5,6 @@ const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const diagnosisRoutes = require("./routes/diagnosisRoutes");
-const uploadFile = require("./routes/uploadRoutes");
-const nfcRoutes = require("./routes/nfcRoutes");
 
 const app = express();
 
@@ -26,8 +24,6 @@ app.use("/api/user", userRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/diagnosis", diagnosisRoutes);
 
-app.use("/api/nfc", nfcRoutes);
-app.use("/api/upload", uploadFile);
 
 const PORT = process.env.PORT || 5000;
 
