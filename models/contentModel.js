@@ -22,7 +22,7 @@ const contentSchema = new mongoose.Schema({
     type: String
   },
 
-  filePath: {
+  fileUrl: {
     type: String
   },
 
