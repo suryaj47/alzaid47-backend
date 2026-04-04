@@ -4,8 +4,9 @@ require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-const diagnosisRoutes = require("./routes/diagnosisRoutes");
 const contentRoutes = require("./routes/contentRoutes");
+const demographicRoutes = require("./routes/demographicRoutes");
+
 const app = express();
 
 // middleware
@@ -22,7 +23,7 @@ app.get("/ping", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/uploads", express.static("uploads"));
-app.use("/api/diagnosis", diagnosisRoutes);
+app.use("/api/demographic", demographicRoutes);
 app.use("/api/content", contentRoutes);
 
 const PORT = process.env.PORT || 5000;
