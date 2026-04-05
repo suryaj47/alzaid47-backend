@@ -1,14 +1,45 @@
 const Demographic = require("../models/Demographic");
 
-// ✅ CREATE TEST
+const axios = require("axios");
+
+// ✅ CREATE TEST + ML
 exports.createTest = async (req, res) => {
   try {
-    const data = await Demographic.create({
+    // 🔹 Step 1: Save initial data
+    const test = await Demographic.create({
       ...req.body,
       userId: req.userId,
     });
 
-    res.status(201).json(data);
+    // 🔹 Step 2: Call ML API
+    let prediction = null;
+    let confidence = null;
+
+    try {
+      const mlRes = await axios.post(
+        "http://localhost:8000/predictdemo", // 🔴 change if needed
+        req.body
+      );
+
+      prediction = mlRes.data.prediction;
+      confidence = mlRes.data.confidence;
+    } catch (mlErr) {
+      console.log("ML ERROR:", mlErr.message);
+      // 👉 don't fail whole API if ML fails
+    }
+
+    // 🔹 Step 3: Update DB if ML worked
+    if (prediction !== null) {
+      test.prediction = prediction;
+      test.confidence = confidence;
+      test.status = "completed";
+
+      await test.save();
+    }
+
+    // 🔹 Step 4: Return response
+    res.status(201).json(test);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

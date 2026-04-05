@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const demographicRoutes = require("./routes/demographicRoutes");
+const mriRoutes = require("./routes/mriRoutes");
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.use("/api/user", userRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/demographic", demographicRoutes);
 app.use("/api/content", contentRoutes);
+app.use("/api/mri", mriRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 
