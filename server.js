@@ -7,7 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const demographicRoutes = require("./routes/demographicRoutes");
 const mriRoutes = require("./routes/mriRoutes");
-
+const mmseRoutes = require("./routes/mmseRoutes");
 const app = express();
 
 // middleware
@@ -27,7 +27,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/demographic", demographicRoutes);
 app.use("/api/content", contentRoutes);
 app.use("/api/mri", mriRoutes);
-
+app.use("/api/mmse",mmseRoutes);
 
 const PORT = process.env.PORT || 5000;
 
