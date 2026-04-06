@@ -11,7 +11,7 @@ exports.createMRI = async (req, res) => {
     }
 
     const userId = req.userId;
-    const FastAPIURL = `${process.env.ML_URL}:${process.env.ML_PORT2}/predictmri`;
+    const FastAPIURL = `${process.env.ML_URL}/predictmri`;
     // 1. Upload to Cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: "raw",
