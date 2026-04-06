@@ -17,7 +17,7 @@ exports.createTest = async (req, res) => {
 
     try {
       const mlRes = await axios.post(
-        `${process.env.ML_URL}:${process.env.ML_PORT}/predictdemo`, // 🔴 change if needed
+        `${process.env.ML_URL}/predict`, // 🔴 change if needed
         req.body
       );
 
