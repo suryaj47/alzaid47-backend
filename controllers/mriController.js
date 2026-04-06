@@ -31,28 +31,39 @@ exports.createMRI = async (req, res) => {
     });
 
     // 4. 🔥 Run ML in background (NO await)
-    axios
-      .post(FastAPIURL, {
-        scan_id: newScan._id,
-        file_url: result.secure_url,
-      })
-      .then(async (response) => {
-        await MRI.findByIdAndUpdate(newScan._id, {
-          prediction: response.data.prediction,
-          confidence: response.data.confidence,
-          probabilities: response.data.probabilities,
-          status: "completed",
-          updated_at: new Date(),
-        });
-      })
-      .catch(async (err) => {
-        console.error("ML Error:", err.message);
-
-        await MRI.findByIdAndUpdate(newScan._id, {
-          status: "failed",
-        });
-      });
-
+    
+    // 4. 🔥 Run ML in background (NO await)
+axios
+  .post(
+    FastAPIURL,
+    {
+      scan_id: String(newScan._id),  // ← convert ObjectId to string
+      file_url: result.secure_url,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",  // ← this is the fix
+      },
+    }
+  )
+  .then(async (response) => {
+    await MRI.findByIdAndUpdate(newScan._id, {
+      prediction: response.data.prediction,
+      confidence: response.data.confidence,
+      probabilities: response.data.probabilities,
+      status: "completed",
+      updated_at: new Date(),
+    });
+  })
+  .catch(async (err) => {
+    console.error("ML Error:", err.message);
+    console.error("ML URL:", FastAPIURL);
+    console.error("Error code:", err.code);
+    await MRI.findByIdAndUpdate(newScan._id, {
+      status: "failed",
+    });
+  });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
