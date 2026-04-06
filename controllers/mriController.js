@@ -31,8 +31,7 @@ exports.createMRI = async (req, res) => {
     });
 
     // 4. 🔥 Run ML in background (NO await)
-    
-    // 4. 🔥 Run ML in background (NO await)
+
 axios
   .post(
     FastAPIURL,
@@ -156,6 +155,8 @@ exports.getStatus = async (req, res) => {
     res.json({
       status: scan.status,
       prediction: scan.prediction,
+      confidence: scan.confidence,       // ← add this
+      probabilities: scan.probabilities, 
     });
 
   } catch (err) {
