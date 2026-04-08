@@ -55,11 +55,13 @@ const getContent = async (req, res) => {
     }
 
     if (content.type === "text") {
-      return res.json({ type: "text", data: content.text });
+      return res.json({ type: "text", data: content.text, label: content.label,
+      createdAt: content.createdAt, });
     }
 
     if (content.type === "link") {
-      return res.json({ type: "link", link: content.link });
+      return res.json({ type: "link", link: content.link, label: content.label,
+      createdAt: content.createdAt, });
     }
 
     // image / video / audio — return cloudinary URL directly
