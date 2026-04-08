@@ -73,8 +73,10 @@ exports.updateResult = async (req, res) => {
 // ✅ GET LATEST
 exports.getLatest = async (req, res) => {
   try {
-    const data = await Demographic.findOne({ userId: req.userId })
-      .sort({ createdAt: -1 });
+    const data = await Demographic.findOne({
+      userId: req.userId,
+      status: "completed"   // filter only successful tests
+    }).sort({ createdAt: -1 }); // latest among completed ones
 
     res.json(data);
   } catch (err) {

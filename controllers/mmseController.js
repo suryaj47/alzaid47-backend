@@ -160,10 +160,22 @@ const submitTest = async (req, res) => {
   }
 };
 
+const getLatestmmse = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const latestResult = await MMSE_Result.findOne({ userId }).sort({ createdAt: -1 });
+    res.json({ success: true, data: latestResult });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 // ✅ EXPORT (OUTSIDE FUNCTION)
 module.exports = {
   getQuestions,
   addQuestions,
   submitTest,
-  deleteAllQuestions
+  deleteAllQuestions,
+  getLatestmmse
 };
