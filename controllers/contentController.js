@@ -66,6 +66,7 @@ const getContent = async (req, res) => {
     return res.json({
       type: content.type,
       fileUrl: content.fileUrl,   // already a full https:// URL
+      createdAt: content.createdAt,
     });
 
   } catch (err) {
