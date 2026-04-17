@@ -137,8 +137,8 @@ const submitTest = async (req, res) => {
     // -------- STAGE --------
     let stage = "";
     if (totalScore >= 24) stage = "Normal";
-    else if (totalScore >= 18) stage = "Mild Cognitive Impairment";
-    else stage = "Severe Impairment";
+    else if (totalScore >= 18) stage = "Mild_Cognitive_Impairment";
+    else stage = "Severe_Impairment";
 
     // -------- SAVE --------
     await MMSE_Result.create({
